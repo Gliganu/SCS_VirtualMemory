@@ -51,5 +51,7 @@ public class MainFrame extends JFrame{
     public void setSelectedChapter(Chapter newChapter) {
         //todo smth here
         titlePanel.setTitle(newChapter.getName());
+        MemoryElementViewFactory.constructMemoryViewForChapter(newChapter);
+        chapterDashboard.setChapter(newChapter);
     }
 }

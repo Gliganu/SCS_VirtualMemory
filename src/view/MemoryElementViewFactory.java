@@ -31,8 +31,8 @@ public class MemoryElementViewFactory {
 
         List<MemoryElement> memoryElementList = chapter.getMemoryElementList();
 
-        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 3).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
-        List<MemoryLink> memoryLinkList = memoryElementList.subList(3, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
+        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 2).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
+        List<MemoryLink> memoryLinkList = memoryElementList.subList(2, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
 
 
         //-------
@@ -49,11 +49,11 @@ public class MemoryElementViewFactory {
 
         //-------
         MemoryLink memLink2 = memoryLinkList.get(1);
-        attachView(memLink2,120,50,0,0,Color.GREEN);
+        attachView(memLink2,120,50,0,0,Color.RED);
 
         //-------
         MemoryLink memLink3 = memoryLinkList.get(2);
-        attachView(memLink3,140,40,0,0,Color.GREEN);
+        attachView(memLink3,140,40,0,0,Color.RED);
 
 
     }

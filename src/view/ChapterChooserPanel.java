@@ -39,6 +39,9 @@ public class ChapterChooserPanel extends JPanel {
 
         addListener();
 
+        chapterList.setSelectedIndex(0);
+        parent.setSelectedChapter(chapters.get(0));
+
         add(chapterList);
     }
 

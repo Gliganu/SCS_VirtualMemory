@@ -1,5 +1,7 @@
 package view;
 
+import model.AddressBlock;
+
 import java.awt.*;
 
 /**
@@ -12,6 +14,9 @@ public class MemoryElementView {
     private int height;
     private int width;
     private Color color;
+
+    private int fromPoint;
+    private int toPoint;
 
     public MemoryElementView(int x, int y, int height, int width, Color color) {
         this.x = x;
@@ -59,6 +64,22 @@ public class MemoryElementView {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public int getFromPoint() {
+        return fromPoint;
+    }
+
+    public void setFromPoint(int fromPoint) {
+        this.fromPoint = fromPoint;
+    }
+
+    public int getToPoint() {
+        return toPoint;
+    }
+
+    public void setToPoint(int toPoint) {
+        this.toPoint = toPoint;
     }
 }
 

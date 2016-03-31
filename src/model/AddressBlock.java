@@ -1,13 +1,19 @@
 package model;
 
+import view.MemoryElementView;
+
+import java.awt.*;
+
 /**
  * Created by GligaBogdan on 31-Mar-16.
  */
 public class AddressBlock {
 
+    private MemoryBlock parent;
     private String inDescription;
     private String leftDescription;
     private String aboveDescription;
+
 
     public AddressBlock(String inDescription, String leftDescription, String aboveDescription) {
         this.inDescription = inDescription;
@@ -37,5 +43,17 @@ public class AddressBlock {
 
     public void setAboveDescription(String aboveDescription) {
         this.aboveDescription = aboveDescription;
+    }
+
+    public Point getDrawPoint(){
+        return parent.getDrawPointForAddress(this);
+    }
+
+    public MemoryBlock getParent() {
+        return parent;
+    }
+
+    public void setParent(MemoryBlock parent) {
+        this.parent = parent;
     }
 }

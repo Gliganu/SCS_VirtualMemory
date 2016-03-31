@@ -2,8 +2,10 @@ package controller;
 
 import model.*;
 import view.ChapterDashboard;
+import view.MemoryElementView;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by GligaBogdan on 31-Mar-16.
@@ -84,5 +86,10 @@ public class Chapter {
                 ", memoryElementList=" + memoryElementList +
                 ", questionList=" + questionList +
                 '}';
+    }
+
+    public List<MemoryElementView> getMemoryElementViewList(){
+
+        return memoryElementList.stream().map(MemoryElement::getMemoryElementView).collect(Collectors.toList());
     }
 }

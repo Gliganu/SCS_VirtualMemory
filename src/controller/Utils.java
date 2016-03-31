@@ -44,7 +44,9 @@ public class Utils {
         List<AddressBlock> addressBlockList = new ArrayList<>();
 
         for(int i = 0;i < nrBlocks ;i++){
-            addressBlockList.add(new AddressBlock("in desc","left desc", "above desc"));;
+            AddressBlock addressBlock = new AddressBlock("in desc", "left desc", "above desc");
+            addressBlockList.add(addressBlock);
+
         }
 
         return addressBlockList;
