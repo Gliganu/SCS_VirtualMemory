@@ -1,14 +1,15 @@
 package view;
 
 import controller.Chapter;
+import model.AddressBlock;
 import model.MemoryBlock;
 import model.MemoryElement;
 import model.MemoryLink;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
@@ -19,10 +20,27 @@ import java.util.List;
 
 public class ChapterDashboard extends JPanel {
 
+    private final int ARRROW_HEAD_SIZE = 10;
+    private final int MEM_BLOCK_WRITE_BUFFER = 10;
+
     private Chapter chapter;
 
     public ChapterDashboard(Chapter chapter) {
         this.chapter = chapter;
+        initUI();
+    }
+
+    private void initUI() {
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int x = e.getX();
+                int y = e.getY();
+                System.out.println(x + "," + y);//these co-ords are relative to the component
+            }
+        });
+
     }
 
     @Override
@@ -43,26 +61,86 @@ public class ChapterDashboard extends JPanel {
 
     private void drawMemoryElement(MemoryElement memoryElement, Graphics2D g2d) {
 
-        MemoryElementView view = memoryElement.getMemoryElementView();
-        g2d.setColor(view.getColor());
+        if (!memoryElement.isVisible()) {
+            return;
+        }
 
         if(memoryElement instanceof MemoryBlock){
-            g2d.fill(new Rectangle2D.Float(view.getX(),view.getY(),view.getWidth(),view.getHeight()));
+            drawMemoryBlock(g2d, (MemoryBlock) memoryElement);
         }
 
         if(memoryElement instanceof MemoryLink){
-            MemoryLink memLink = (MemoryLink) memoryElement;
-            Point fromPoint = memLink.getFromAddressBlock().getDrawPoint();
-            Point toPoint = memLink.getToAddressBlock().getDrawPoint();
-            g2d.draw(new Line2D.Double(fromPoint.x,fromPoint.y, toPoint.x, toPoint.y));
+            drawMemoryLink(g2d, (MemoryLink) memoryElement);
+
         }
 
     }
 
+    private void drawMemoryLink(Graphics2D g2d, MemoryLink memLink) {
+        Point fromPoint = UIUtils.getDrawPointForAddressBlock(memLink.getFromAddressBlock(), true);
+        Point toPoint = UIUtils.getDrawPointForAddressBlock(memLink.getToAddressBlock(), false);
 
+
+        g2d.setColor(memLink.getMemoryElementView().getColor());
+        g2d.draw(new Line2D.Double(fromPoint.x, fromPoint.y, toPoint.x, toPoint.y));
+
+        g2d.fillRect(toPoint.x - ARRROW_HEAD_SIZE, toPoint.y - ARRROW_HEAD_SIZE / 2, ARRROW_HEAD_SIZE, ARRROW_HEAD_SIZE);
+
+
+        g2d.drawString(memLink.getDescription(), (fromPoint.x + toPoint.x) / 2, (fromPoint.y + toPoint.y) / 2 - 10);
+    }
+
+    private void drawMemoryBlock(Graphics2D g2d, MemoryBlock memoryBlock) {
+
+        MemoryElementView view = memoryBlock.getMemoryElementView();
+        List<AddressBlock> addressBlockList = memoryBlock.getAddressBlockList();
+
+        int x = view.getX();
+        int y = view.getY();
+        int height = view.getHeight();
+        int width = view.getWidth();
+
+        int addressBlockHeight = height / addressBlockList.size();
+
+        for (AddressBlock addressBlock : addressBlockList) {
+
+            if (addressBlock.isHidden()) {
+                continue;
+            }
+
+            int indexOf = addressBlockList.indexOf(addressBlock);
+
+            g2d.setColor(view.getColor());
+            g2d.fill(new Rectangle2D.Float(x, y + indexOf * addressBlockHeight, width, addressBlockHeight));
+
+            if (view.isInsideDescription() && addressBlockList.indexOf(addressBlock) == 1) {
+                g2d.setColor(Color.black);
+                g2d.drawString(memoryBlock.getDescription(), x, y + indexOf * addressBlockHeight - addressBlockHeight / 2);
+            }
+
+            g2d.setColor(Color.BLACK);
+            g2d.drawString(addressBlock.getInDescription(), x, y + (indexOf + 1) * addressBlockHeight - addressBlockHeight / 2);
+
+            g2d.setColor(Color.white);
+            g2d.draw(new Rectangle2D.Float(x, y + indexOf * addressBlockHeight, width, 1));
+
+        }
+
+        g2d.setColor(Color.black);
+
+        if (!view.isInsideDescription()) {
+            g2d.drawString(memoryBlock.getDescription(), x - MEM_BLOCK_WRITE_BUFFER, y - MEM_BLOCK_WRITE_BUFFER);
+        }
+
+
+    }
 
     public void setChapter(Chapter chapter) {
         this.chapter = chapter;
+        repaint();
+    }
+
+    public void repaintChapterComponents() {
         repaint();
     }
 }

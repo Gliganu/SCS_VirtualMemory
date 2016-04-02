@@ -3,11 +3,9 @@ package view;
 import controller.Chapter;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,8 +37,8 @@ public class ChapterChooserPanel extends JPanel {
 
         addListener();
 
-        chapterList.setSelectedIndex(0);
-        parent.setSelectedChapter(chapters.get(0));
+        chapterList.setSelectedIndex(2);
+        parent.setSelectedChapter(chapters.get(2));
 
         add(chapterList);
     }

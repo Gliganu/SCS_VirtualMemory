@@ -1,8 +1,5 @@
 package model;
 
-import view.MemoryElementView;
-
-import java.awt.*;
 import java.util.List;
 
 /**
@@ -36,26 +33,10 @@ public class MemoryBlock extends MemoryElement {
         return addressBlockList.get(index);
     }
 
-    @Override
-    public void setMemoryElementView(MemoryElementView memoryElementView) {
-        super.setMemoryElementView(memoryElementView);
-
-        memoryElementView.getX();
-//        memoryElementView.getY
-
-    }
-
-    public Point getDrawPointForAddress(AddressBlock addressBlock) {
-
-        int addressX = memoryElementView.getX();
-
-        int height = memoryElementView.getHeight();
-        int blockY = memoryElementView.getY();
-
-        int indexOfAddress = addressBlockList.indexOf(addressBlock)+1;
-
-        int addressY = blockY + height/indexOfAddress;
-
-        return new Point(addressX,addressY);
+    public void addHiddenAddressBlock() {
+        AddressBlock addressBlock = new AddressBlock("", "", "");
+        addressBlock.setHidden(true);
+        addressBlock.setParent(this);
+        addressBlockList.add(addressBlock);
     }
 }

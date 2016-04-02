@@ -1,12 +1,6 @@
 package view;
 
-import controller.Chapter;
-import controller.Utils;
-
 import javax.swing.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.List;
 
 /**
@@ -24,8 +18,6 @@ public class StorylinePanel extends JPanel {
         this.parent = parent;
         initUI();
 
-        addStories(Utils.getRandomStories());
-
     }
 
     private void initUI() {
@@ -37,7 +29,13 @@ public class StorylinePanel extends JPanel {
         add(storyList);
     }
 
-    public void addStories(List<String> stories){
+    public void addStory(String story) {
+        listModel.addElement(story);
+    }
+
+    public void setStories(List<String> stories) {
+
+        listModel.clear();
 
         for(String story: stories){
             listModel.addElement(story);

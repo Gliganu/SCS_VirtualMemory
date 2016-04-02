@@ -1,9 +1,5 @@
 package model;
 
-import view.MemoryElementView;
-
-import java.awt.*;
-
 /**
  * Created by GligaBogdan on 31-Mar-16.
  */
@@ -13,6 +9,7 @@ public class AddressBlock {
     private String inDescription;
     private String leftDescription;
     private String aboveDescription;
+    private boolean hidden = false;
 
 
     public AddressBlock(String inDescription, String leftDescription, String aboveDescription) {
@@ -45,15 +42,19 @@ public class AddressBlock {
         this.aboveDescription = aboveDescription;
     }
 
-    public Point getDrawPoint(){
-        return parent.getDrawPointForAddress(this);
-    }
-
     public MemoryBlock getParent() {
         return parent;
     }
 
     public void setParent(MemoryBlock parent) {
         this.parent = parent;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 }

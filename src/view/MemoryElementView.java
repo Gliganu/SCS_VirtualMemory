@@ -1,7 +1,5 @@
 package view;
 
-import model.AddressBlock;
-
 import java.awt.*;
 
 /**
@@ -14,11 +12,12 @@ public class MemoryElementView {
     private int height;
     private int width;
     private Color color;
+    private boolean insideDescription = false;
 
     private int fromPoint;
     private int toPoint;
 
-    public MemoryElementView(int x, int y, int height, int width, Color color) {
+    public MemoryElementView(int x, int y, int width, int height, Color color) {
         this.x = x;
         this.y = y;
         this.height = height;
@@ -80,6 +79,14 @@ public class MemoryElementView {
 
     public void setToPoint(int toPoint) {
         this.toPoint = toPoint;
+    }
+
+    public boolean isInsideDescription() {
+        return insideDescription;
+    }
+
+    public void setInsideDescription(boolean insideDescription) {
+        this.insideDescription = insideDescription;
     }
 }
 

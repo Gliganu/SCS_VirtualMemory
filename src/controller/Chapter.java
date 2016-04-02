@@ -2,10 +2,8 @@ package controller;
 
 import model.*;
 import view.ChapterDashboard;
-import view.MemoryElementView;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by GligaBogdan on 31-Mar-16.
@@ -20,13 +18,16 @@ public class Chapter {
     private List<MemoryElement> memoryElementList;
     private List<Question> questionList;
 
+    private List<Command> commandList;
+
     private ChapterDashboard dashboard;
 
-    public Chapter(String name, Storyline storyline, List<MemoryElement> memoryElementList, List<Question> questionList, Type type) {
+    public Chapter(String name, Storyline storyline, List<MemoryElement> memoryElementList, List<Question> questionList, List<Command> commandList, Type type) {
         this.name = name;
         this.storyline = storyline;
         this.memoryElementList = memoryElementList;
         this.questionList = questionList;
+        this.commandList = commandList;
         this.type = type;
     }
 
@@ -78,18 +79,24 @@ public class Chapter {
         this.dashboard = dashboard;
     }
 
+    public List<Command> getCommandList() {
+        return commandList;
+    }
+
+    public void setCommandList(List<Command> commandList) {
+        this.commandList = commandList;
+    }
+
     @Override
     public String toString() {
         return "Chapter{" +
                 "name='" + name + '\'' +
                 ", storyline=" + storyline +
+                ", type=" + type +
                 ", memoryElementList=" + memoryElementList +
                 ", questionList=" + questionList +
+                ", commandList=" + commandList +
+                ", dashboard=" + dashboard +
                 '}';
-    }
-
-    public List<MemoryElementView> getMemoryElementViewList(){
-
-        return memoryElementList.stream().map(MemoryElement::getMemoryElementView).collect(Collectors.toList());
     }
 }
