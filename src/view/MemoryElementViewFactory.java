@@ -30,9 +30,84 @@ public class MemoryElementViewFactory {
             case SECURITY:
                 constructSecurityChapterView(chapter);
                 break;
+            case NOT_ENOUGH_MEMORY_SOLLUTION:
+                constructNotEnoughMemorySollutionChapterView(chapter);
+                break;
+            case MEMORY_FRAGMENTATION_SOLLUTION:
+                constructMemoryFragmentationSollutionChapterView(chapter);
+                break;
         }
 
 
+    }
+
+    private static void constructMemoryFragmentationSollutionChapterView(Chapter chapter) {
+        List<MemoryElement> memoryElementList = chapter.getMemoryElementList();
+
+        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 5).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
+        List<MemoryLink> memoryLinkList = memoryElementList.subList(5, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
+
+        //-------
+        MemoryBlock blueMemoryBlock = memoryBlockList.get(0);
+        attachView(blueMemoryBlock, 120, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.CYAN).setOnePiece(true);
+
+        //-------
+        MemoryBlock purpleMemoryBlock = memoryBlockList.get(1);
+        attachView(purpleMemoryBlock, 120, 350, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.PINK).setOnePiece(true);
+
+        //-------
+        MemoryBlock blueOrangeMap = memoryBlockList.get(2);
+        attachView(blueOrangeMap, 370, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.ORANGE).setOnePiece(true);
+
+        //-------
+        MemoryBlock purpleOrangeMap = memoryBlockList.get(3);
+        attachView(purpleOrangeMap, 370, 350, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.ORANGE).setOnePiece(true);
+
+        //-------
+        MemoryBlock greenMemoryBlock = memoryBlockList.get(4);
+        attachView(greenMemoryBlock, 700, 130, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.GREEN);
+
+
+        for (MemoryLink link : memoryLinkList.subList(0, 12)) {
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
+
+
+        for (MemoryLink link : memoryLinkList.subList(12, memoryLinkList.size())) {
+            attachView(link, -1, -1, -1, -1, Color.BLUE);
+        }
+    }
+
+    private static void constructNotEnoughMemorySollutionChapterView(Chapter chapter) {
+        List<MemoryElement> memoryElementList = chapter.getMemoryElementList();
+
+        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 4).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
+        List<MemoryLink> memoryLinkList = memoryElementList.subList(4, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
+
+
+//        -------
+        MemoryBlock blueMemoryBlock = memoryBlockList.get(0);
+        attachView(blueMemoryBlock, 120, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.cyan);
+
+//        -------
+        MemoryBlock greenMemoryBlock = memoryBlockList.get(1);
+        attachView(greenMemoryBlock, 730, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.GREEN);
+
+
+//        -------
+        MemoryBlock orangeMemoryBlock = memoryBlockList.get(2);
+        MemoryElementView mapView = attachView(orangeMemoryBlock, 430, 200, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.ORANGE);
+        mapView.setOnePiece(true);
+
+
+//        -------
+        MemoryBlock diskMemoryBlock = memoryBlockList.get(3);
+        MemoryElementView diskView = attachView(diskMemoryBlock, 730, 410, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.MAGENTA);
+        diskView.setOnePiece(true);
+
+        for (MemoryLink link : memoryLinkList) {
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
     }
 
     private static void constructSecurityChapterView(Chapter chapter) {
@@ -55,13 +130,9 @@ public class MemoryElementViewFactory {
         MemoryBlock purpleMemoryBlock = memoryBlockList.get(2);
         attachView(purpleMemoryBlock, 120, 300, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.pink);
 
-        //-------
-        MemoryLink memLink1 = memoryLinkList.get(0);
-        attachView(memLink1, -1, -1, -1, -1, Color.RED);
-
-        //-------
-        MemoryLink memLink2 = memoryLinkList.get(1);
-        attachView(memLink2, 1, -1, -1, -1, Color.RED);
+        for (MemoryLink link : memoryLinkList) {
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
 
     }
 
@@ -77,23 +148,28 @@ public class MemoryElementViewFactory {
 
         //-------
         MemoryBlock blueMemoryBlock = memoryBlockList.get(1);
-        attachView(blueMemoryBlock, 225, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.BLUE, true);
+        MemoryElementView blueView = attachView(blueMemoryBlock, 225, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.BLUE, true);
+        blueView.setOnePiece(true);
 
         //-------
         MemoryBlock purpleMemoryBlock = memoryBlockList.get(2);
-        attachView(purpleMemoryBlock, 500, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.pink, true);
+        MemoryElementView purpleView = attachView(purpleMemoryBlock, 500, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.pink, true);
+        purpleView.setOnePiece(true);
 
         //-------
         MemoryBlock orangeMemoryBlock = memoryBlockList.get(3);
-        attachView(orangeMemoryBlock, 800, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.orange, true);
+        MemoryElementView orangeView = attachView(orangeMemoryBlock, 800, 50, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.orange, true);
+        orangeView.setOnePiece(true);
 
         //-------
         MemoryBlock afterBlueMemoryBlock = memoryBlockList.get(4);
-        attachView(afterBlueMemoryBlock, 100, 250, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.blue, true);
+        MemoryElementView afterBlueView = attachView(afterBlueMemoryBlock, 100, 250, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.blue, true);
+        afterBlueView.setOnePiece(true);
 
         //-------
         MemoryBlock afterPurpleMemoryBlock = memoryBlockList.get(5);
-        attachView(afterPurpleMemoryBlock, 100, 250 + 3 * ADDRESS_BLOCK_HEIGHT, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.pink, true);
+        MemoryElementView afterPurpleView = attachView(afterPurpleMemoryBlock, 100, 250 + 3 * ADDRESS_BLOCK_HEIGHT, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.pink, true);
+        afterPurpleView.setOnePiece(true);
 
     }
 
@@ -113,31 +189,19 @@ public class MemoryElementViewFactory {
         MemoryBlock greenMemoryBlock = memoryBlockList.get(1);
         attachView(greenMemoryBlock, 570, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.GREEN);
 
-        //-------
-        MemoryLink memLink1 = memoryLinkList.get(0);
-        attachView(memLink1, -1, -1, -1, -1, Color.RED);
-
-        //-------
-        MemoryLink memLink2 = memoryLinkList.get(1);
-        attachView(memLink2, 1, -1, -1, -1, Color.RED);
-
-        //-------
-        MemoryLink memLink3 = memoryLinkList.get(2);
-        attachView(memLink3, 1, -1, -1, -1, Color.RED);
-
-        //-------
-        MemoryLink memLink4 = memoryLinkList.get(3);
-        attachView(memLink4, 1, -1, -1, -1, Color.RED);
+        for (MemoryLink link : memoryLinkList) {
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
 
 
     }
 
 
-    public static void attachView(MemoryElement element, int x, int y, int w, int h,Color color) {
-        attachView(element, x, y, w, h, color, false);
+    public static MemoryElementView attachView(MemoryElement element, int x, int y, int w, int h, Color color) {
+        return attachView(element, x, y, w, h, color, false);
     }
 
-    public static void attachView(MemoryElement element, int x, int y, int w, int h, Color color, boolean insideDescription) {
+    public static MemoryElementView attachView(MemoryElement element, int x, int y, int w, int h, Color color, boolean insideDescription) {
 
         int elementHeight;
 
@@ -151,9 +215,10 @@ public class MemoryElementViewFactory {
 
 
         MemoryElementView memoryElementView = new MemoryElementView(x, y, w, elementHeight, color);
-
-        memoryElementView.setInsideDescription(insideDescription);
+        memoryElementView.setWithInsideDescription(insideDescription);
         element.setMemoryElementView(memoryElementView);
+
+        return memoryElementView;
 
     }
 

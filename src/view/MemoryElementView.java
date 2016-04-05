@@ -12,7 +12,9 @@ public class MemoryElementView {
     private int height;
     private int width;
     private Color color;
-    private boolean insideDescription = false;
+    private boolean withInsideDescription = false;
+    private boolean onePiece = false;
+    private boolean visible = false;
 
     private int fromPoint;
     private int toPoint;
@@ -23,6 +25,22 @@ public class MemoryElementView {
         this.height = height;
         this.width = width;
         this.color = color;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isOnePiece() {
+        return onePiece;
+    }
+
+    public void setOnePiece(boolean onePiece) {
+        this.onePiece = onePiece;
     }
 
     public int getX() {
@@ -81,12 +99,12 @@ public class MemoryElementView {
         this.toPoint = toPoint;
     }
 
-    public boolean isInsideDescription() {
-        return insideDescription;
+    public boolean isWithInsideDescription() {
+        return withInsideDescription;
     }
 
-    public void setInsideDescription(boolean insideDescription) {
-        this.insideDescription = insideDescription;
+    public void setWithInsideDescription(boolean withInsideDescription) {
+        this.withInsideDescription = withInsideDescription;
     }
 }
 

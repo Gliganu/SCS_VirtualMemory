@@ -9,7 +9,6 @@ public abstract  class MemoryElement {
 
     protected String description;
     protected MemoryElementView memoryElementView;
-    protected boolean visible = false;
 
     public MemoryElement(String description) {
         this.description = description;
@@ -31,11 +30,4 @@ public abstract  class MemoryElement {
         this.memoryElementView = memoryElementView;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
 }

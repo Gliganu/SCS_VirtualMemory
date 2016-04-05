@@ -58,10 +58,46 @@ public class Utils {
                 return getStoriesForMemoryFragmentationChapter();
             case SECURITY:
                 return getStoriesForSecurityChapter();
+            case NOT_ENOUGH_MEMORY_SOLLUTION:
+                return getStoriesForNotEnougMemorySollutionChapter();
+            case MEMORY_FRAGMENTATION_SOLLUTION:
+                return getStoriesForMemoryFragmentationSollutionChapter();
         }
 
         return null;
 
+    }
+
+    private static List<String> getStoriesForMemoryFragmentationSollutionChapter() {
+
+        List<String> stories = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            stories.add("Random " + i);
+        }
+        return stories;
+    }
+
+    private static List<String> getStoriesForNotEnougMemorySollutionChapter() {
+
+        List<String> stories = new ArrayList<>();
+
+        stories.add("Map some of the program's address space to disk");
+        stories.add("When we need it, we bring it into memory");
+        stories.add("Program loads address 0");
+        stories.add("VM Maps address 0 to RAM 1");
+        stories.add("Program loads address 1");
+        stories.add("VM Maps address 1 to RAM 0");
+        stories.add("Program loads address 2");
+        stories.add("VM Maps address 2 to RAM 2");
+        stories.add("Program loads address 3");
+        stories.add("VM does not have any more space in RAM");
+        stories.add("VM moves the oldest data (0) to disk");
+        stories.add("VM updates the map to point data 0 to disk");
+        stories.add("VM Maps address 3 to RAM 1");
+        stories.add("Mapping gives illusion of unlimited memory");
+
+        return stories;
     }
 
     private static List<String> getStoriesForSecurityChapter() {

@@ -120,6 +120,8 @@ public class MainFrame extends JFrame{
         titlePanel.setTitle(newChapter.getName());
         MemoryElementViewFactory.constructMemoryViewForChapter(newChapter);
         chapterDashboard.setChapter(newChapter);
+        storylinePanel.clearStories();
         requestFocusInWindow();
+
     }
 }

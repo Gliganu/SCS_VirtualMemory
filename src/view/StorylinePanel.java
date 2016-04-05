@@ -1,7 +1,6 @@
 package view;
 
 import javax.swing.*;
-import java.util.List;
 
 /**
  * Created by GligaBogdan on 31-Mar-16.
@@ -33,12 +32,7 @@ public class StorylinePanel extends JPanel {
         listModel.addElement(story);
     }
 
-    public void setStories(List<String> stories) {
-
+    public void clearStories() {
         listModel.clear();
-
-        for(String story: stories){
-            listModel.addElement(story);
-        }
     }
 }

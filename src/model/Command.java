@@ -60,7 +60,7 @@ public class Command {
     }
 
     public void changeMemoryElementVisibility() {
-        memoryElement.setVisible(visible);
+        memoryElement.getMemoryElementView().setVisible(visible);
     }
 
     public List<Command> getInnerCommands() {

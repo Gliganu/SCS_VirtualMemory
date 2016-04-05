@@ -61,7 +61,7 @@ public class ChapterDashboard extends JPanel {
 
     private void drawMemoryElement(MemoryElement memoryElement, Graphics2D g2d) {
 
-        if (!memoryElement.isVisible()) {
+        if (!memoryElement.getMemoryElementView().isVisible()) {
             return;
         }
 
@@ -113,7 +113,7 @@ public class ChapterDashboard extends JPanel {
             g2d.setColor(view.getColor());
             g2d.fill(new Rectangle2D.Float(x, y + indexOf * addressBlockHeight, width, addressBlockHeight));
 
-            if (view.isInsideDescription() && addressBlockList.indexOf(addressBlock) == 1) {
+            if (view.isWithInsideDescription() && addressBlockList.indexOf(addressBlock) == 1 && !view.isOnePiece()) {
                 g2d.setColor(Color.black);
                 g2d.drawString(memoryBlock.getDescription(), x, y + indexOf * addressBlockHeight - addressBlockHeight / 2);
             }
@@ -121,15 +121,18 @@ public class ChapterDashboard extends JPanel {
             g2d.setColor(Color.BLACK);
             g2d.drawString(addressBlock.getInDescription(), x, y + (indexOf + 1) * addressBlockHeight - addressBlockHeight / 2);
 
-            g2d.setColor(Color.white);
-            g2d.draw(new Rectangle2D.Float(x, y + indexOf * addressBlockHeight, width, 1));
+
+            if (!view.isOnePiece()) {
+                g2d.setColor(Color.white);
+                g2d.draw(new Rectangle2D.Float(x, y + indexOf * addressBlockHeight, width, 1));
+            }
 
         }
 
         g2d.setColor(Color.black);
 
-        if (!view.isInsideDescription()) {
-            g2d.drawString(memoryBlock.getDescription(), x - MEM_BLOCK_WRITE_BUFFER, y - MEM_BLOCK_WRITE_BUFFER);
+        if (view.isOnePiece()) {
+            g2d.drawString(memoryBlock.getDescription(), x + MEM_BLOCK_WRITE_BUFFER, y + (addressBlockHeight * addressBlockList.size() / 2));
         }
 
 
