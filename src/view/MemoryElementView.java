@@ -13,6 +13,7 @@ public class MemoryElementView {
     private int width;
     private Color color;
     private boolean withInsideDescription = false;
+    private boolean withSideDescription = false;
     private boolean onePiece = false;
     private boolean visible = false;
 
@@ -105,6 +106,14 @@ public class MemoryElementView {
 
     public void setWithInsideDescription(boolean withInsideDescription) {
         this.withInsideDescription = withInsideDescription;
+    }
+
+    public boolean isWithSideDescription() {
+        return withSideDescription;
+    }
+
+    public void setWithSideDescription(boolean withSideDescription) {
+        this.withSideDescription = withSideDescription;
     }
 }
 

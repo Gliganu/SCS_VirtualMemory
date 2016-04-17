@@ -118,6 +118,12 @@ public class ChapterDashboard extends JPanel {
                 g2d.drawString(memoryBlock.getDescription(), x, y + indexOf * addressBlockHeight - addressBlockHeight / 2);
             }
 
+            if (view.isWithSideDescription()) {
+                g2d.setColor(Color.black);
+                g2d.drawString(addressBlock.getLeftDescription(), x - 40, y + indexOf * addressBlockHeight + 20);
+            }
+
+
             g2d.setColor(Color.BLACK);
             g2d.drawString(addressBlock.getInDescription(), x, y + (indexOf + 1) * addressBlockHeight - addressBlockHeight / 2);
 

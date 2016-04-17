@@ -62,10 +62,33 @@ public class Utils {
                 return getStoriesForNotEnougMemorySollutionChapter();
             case MEMORY_FRAGMENTATION_SOLLUTION:
                 return getStoriesForMemoryFragmentationSollutionChapter();
+            case ACCESS_MEMORY_DETAIL:
+                return getStoriesForAccessMemoryDetailChapter();
+            case PAGE_TABLE:
+                return getStoriesForPageTableChapter();
         }
 
         return null;
 
+    }
+
+    private static List<String> getStoriesForPageTableChapter() {
+        List<String> stories = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            stories.add("Random " + i);
+        }
+        return stories;
+
+    }
+
+    private static List<String> getStoriesForAccessMemoryDetailChapter() {
+        List<String> stories = new ArrayList<>();
+
+        for (int i = 0; i < 20; i++) {
+            stories.add("Random " + i);
+        }
+        return stories;
     }
 
     private static List<String> getStoriesForMemoryFragmentationSollutionChapter() {

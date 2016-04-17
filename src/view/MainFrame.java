@@ -105,6 +105,8 @@ public class MainFrame extends JFrame{
             case ADDRESS_BLOCK_WRITE:
                 command.changeAddressBlockDescription();
                 break;
+            case ADDRESS_BLOCK_WRITE_LEFT:
+                command.changeAddressLeftBlockDescription();
         }
 
         for (Command innerCommand : command.getInnerCommands()) {

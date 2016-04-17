@@ -95,10 +95,15 @@ public class Command {
         addressBlock.setInDescription(addressBlockDescription);
     }
 
+    public void changeAddressLeftBlockDescription() {
+        addressBlock.getParent().getMemoryElementView().setWithSideDescription(true);
+        addressBlock.setLeftDescription(addressBlockDescription);
+    }
+
 
     public enum CommandType {
 
-        ELEMENT_VISIBILITY, NEXT_STORY, ADDRESS_BLOCK_WRITE
+        ELEMENT_VISIBILITY, NEXT_STORY, ADDRESS_BLOCK_WRITE, ADDRESS_BLOCK_WRITE_LEFT
 
     }
 

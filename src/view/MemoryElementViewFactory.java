@@ -36,8 +36,80 @@ public class MemoryElementViewFactory {
             case MEMORY_FRAGMENTATION_SOLLUTION:
                 constructMemoryFragmentationSollutionChapterView(chapter);
                 break;
+            case ACCESS_MEMORY_DETAIL:
+                constructAccessMemoryDetailChapterView(chapter);
+                break;
+            case PAGE_TABLE:
+                constructPageTableChapterView(chapter);
         }
 
+
+    }
+
+    private static void constructPageTableChapterView(Chapter chapter) {
+
+        List<MemoryElement> memoryElementList = chapter.getMemoryElementList();
+
+        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 8).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
+        List<MemoryLink> memoryLinkList = memoryElementList.subList(8, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
+
+        for (int i = 0; i < 4; i++) {
+
+            MemoryBlock b1 = memoryBlockList.get(i);
+            MemoryElementView blueElementView = attachView(b1, 515, 400 - i * 95, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.cyan);
+            blueElementView.setOnePiece(true);
+        }
+
+        for (int i = 4; i < 7; i++) {
+
+            MemoryBlock g1 = memoryBlockList.get(i);
+            MemoryElementView greenElementView = attachView(g1, 815, 400 - (i - 4) * 95, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.green);
+            greenElementView.setOnePiece(true);
+        }
+
+        MemoryBlock orangeBlock = memoryBlockList.get(7);
+        attachView(orangeBlock, 120, 110, ADDRESS_BLOCK_WIDTH * 2, ADDRESS_BLOCK_HEIGHT, Color.orange);
+
+        for (int i = 0; i < 2; i++) {
+            MemoryLink link = memoryLinkList.get(i);
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
+
+        MemoryLink link = memoryLinkList.get(2);
+        attachView(link, -1, -1, -1, -1, Color.BLUE);
+
+    }
+
+    private static void constructAccessMemoryDetailChapterView(Chapter chapter) {
+        List<MemoryElement> memoryElementList = chapter.getMemoryElementList();
+
+        List<MemoryBlock> memoryBlockList = memoryElementList.subList(0, 4).stream().map(memoryElement -> (MemoryBlock) memoryElement).collect(Collectors.toList());
+        List<MemoryLink> memoryLinkList = memoryElementList.subList(4, memoryElementList.size()).stream().map(memoryElement -> (MemoryLink) memoryElement).collect(Collectors.toList());
+
+
+//        -------
+        MemoryBlock blueMemoryBlock = memoryBlockList.get(0);
+        MemoryElementView blueElementView = attachView(blueMemoryBlock, 120, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.cyan);
+        blueElementView.setOnePiece(true);
+
+//        -------
+        MemoryBlock greenMemoryBlock = memoryBlockList.get(1);
+        attachView(greenMemoryBlock, 930, 110, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.GREEN);
+
+
+//        -------
+        MemoryBlock orangeMemoryBlock = memoryBlockList.get(2);
+        attachView(orangeMemoryBlock, 430, 200, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.ORANGE);
+
+
+//        -------
+        MemoryBlock diskMemoryBlock = memoryBlockList.get(3);
+        MemoryElementView diskView = attachView(diskMemoryBlock, 650, 410, ADDRESS_BLOCK_WIDTH, ADDRESS_BLOCK_HEIGHT, Color.MAGENTA);
+        diskView.setOnePiece(true);
+
+        for (MemoryLink link : memoryLinkList) {
+            attachView(link, -1, -1, -1, -1, Color.RED);
+        }
 
     }
 
