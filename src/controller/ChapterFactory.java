@@ -33,14 +33,16 @@ public class ChapterFactory {
                 return memoryFragmentationProblemChapter();
             case SECURITY:
                 return securityChapter();
-            case NOT_ENOUGH_MEMORY_SOLLUTION:
-                return notEnoughMemorySollutionChapter();
-            case MEMORY_FRAGMENTATION_SOLLUTION:
-                return memoryFragmentationSollutionChapter();
+            case NOT_ENOUGH_MEMORY_SOLUTION:
+                return notEnoughMemorysolutionChapter();
+            case MEMORY_FRAGMENTATION_SOLUTION:
+                return memoryFragmentationsolutionChapter();
             case ACCESS_MEMORY_DETAIL:
                 return accessMemoryDetailChapter();
             case PAGE_TABLE:
                 return pageTableChapter();
+            case SECURITY_SOLUTION:
+                return securitySolutionChapter();
         }
 
         return null;
@@ -49,11 +51,13 @@ public class ChapterFactory {
 
     private static Chapter pageTableChapter() {
 
-        String name = "Page Table";
+        String name = "Page Table [Info]";
 
         Type chapterType = Type.PAGE_TABLE;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
+
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
 
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "4kb");
         MemoryBlock blue2 = new MemoryBlock(Utils.getRandomAddressBlocks(3), "4kb");
@@ -64,7 +68,7 @@ public class ChapterFactory {
         MemoryBlock green2 = new MemoryBlock(Utils.getRandomAddressBlocks(3), "4kb");
         MemoryBlock green3 = new MemoryBlock(Utils.getRandomAddressBlocks(3), "4kb");
 
-        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(4), "");
+        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(4), "Page Table");
 
         List<MemoryElement> memoryElementList = new ArrayList<>();
 
@@ -114,31 +118,40 @@ public class ChapterFactory {
         c2.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE_LEFT, green3.getAddressBlockAt(0), "12287"));
 
 
-        Command c3 = new Command(CommandType.ELEMENT_VISIBILITY, link1, true);
-        c3.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link2, true));
+        Command c3 = new Command(CommandType.NEXT_STORY);
+        c3.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c3.addInnerCommand(new Command(CommandType.NEXT_STORY));
 
 
-        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, link3, true);
-        c4.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE_LEFT, blueMemoryBlock.getAddressBlockAt(1), "150"));
-        c4.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE_LEFT, green2.getAddressBlockAt(1), "4246"));
+        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, link1, true);
+        c4.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link2, true));
+
+
+        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, link3, true);
+        c5.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE_LEFT, blueMemoryBlock.getAddressBlockAt(1), "150"));
+        c5.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE_LEFT, green2.getAddressBlockAt(1), "4246"));
+        c5.addInnerCommand(new Command(CommandType.NEXT_STORY));
 
         commandList.add(c2);
         commandList.add(c3);
         commandList.add(c4);
+        commandList.add(c5);
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
     }
 
     private static Chapter accessMemoryDetailChapter() {
-        String name = "How VM access memory";
+        String name = "How VM Accesses Memory [Info]";
 
         Type chapterType = Type.ACCESS_MEMORY_DETAIL;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
 
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
+
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "");
-        MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "");
-        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(4), "");
+        MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "RAM PA Space");
+        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(4), "Translation from VA to PA");
         MemoryBlock diskBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Disk");
 
 
@@ -176,17 +189,20 @@ public class ChapterFactory {
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, orangeMemoryBlock, true));
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true));
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, diskBlock, true));
-
-
-        Command c2 = new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(0), "VA   |   PA");
-        c2.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(1), "512   |   5"));
-        c2.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(2), "786   |   disk"));
-        c2.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(3), "1014   |   2"));
+        c1.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(0), "VA   |   PA"));
+        c1.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(1), "512   |   5"));
+        c1.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(2), "786   |   disk"));
+        c1.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(3), "1014   |   2"));
 
 
         Command c3 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(0), "ld R3, 1024");
+        c3.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
         Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, link1, true);
+        c4.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
         Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, link2, true);
+        c5.addInnerCommand(new Command(CommandType.NEXT_STORY));
         c5.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(2), "data for R3"));
 
 
@@ -199,17 +215,20 @@ public class ChapterFactory {
 
 
         Command c9 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(2), "add R4, R3, R2");
+        c9.addInnerCommand(new Command(CommandType.NEXT_STORY));
         c9.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link3, false));
         c9.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link4, false));
 
         Command c10 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(3), "ld R5, 786");
         Command c11 = new Command(CommandType.ELEMENT_VISIBILITY, link5, true);
         Command c12 = new Command(CommandType.ELEMENT_VISIBILITY, link6, true);
+        c12.addInnerCommand(new Command(CommandType.NEXT_STORY));
         Command c13 = new Command(CommandType.ELEMENT_VISIBILITY, link7, true);
         c13.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(4), "data for R5"));
 
 
         Command c14 = new Command(CommandType.ADDRESS_BLOCK_WRITE, orangeMemoryBlock.getAddressBlockAt(2), "786   |   4");
+        c14.addInnerCommand(new Command(CommandType.NEXT_STORY));
         c14.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link5, false));
         c14.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link6, false));
         c14.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link7, false));
@@ -217,11 +236,11 @@ public class ChapterFactory {
         Command c15 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(1), "ld R5, 786");
         Command c16 = new Command(CommandType.ELEMENT_VISIBILITY, link5, true);
         Command c17 = new Command(CommandType.ELEMENT_VISIBILITY, link8, true);
+        c17.addInnerCommand(new Command(CommandType.NEXT_STORY));
         c17.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(4), "data for R5"));
 
 
         commandList.add(c1);
-        commandList.add(c2);
         commandList.add(c3);
         commandList.add(c4);
         commandList.add(c5);
@@ -239,17 +258,93 @@ public class ChapterFactory {
         commandList.add(c17);
 
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType,quizzes);
 
     }
+    private static Chapter securitySolutionChapter() {
 
-    private static Chapter memoryFragmentationSollutionChapter() {
+        String name = "Application Security [Solution]";
 
-        String name = "Memory Fragmentation Sollution";
-
-        Type chapterType = Type.MEMORY_FRAGMENTATION_SOLLUTION;
+        Type chapterType = Type.SECURITY_SOLUTION;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
+
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
+
+        MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 1 ");
+        MemoryBlock purpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2 ");
+
+        MemoryBlock blueOrangeMap = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Map 1");
+        MemoryBlock purpleOrangeMap = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Map 2");
+
+        MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(12), "RAM Address Space");
+
+
+
+        MemoryLink m1 = new MemoryLink(blueMemoryBlock.getAddressBlockAt(3), blueOrangeMap.getAddressBlockAt(2), "PA 1024");
+        MemoryLink m2 = new MemoryLink(blueOrangeMap.getAddressBlockAt(2), greenMemoryBlock.getAddressBlockAt(4), "VA 4");
+
+        MemoryLink m3 = new MemoryLink(purpleMemoryBlock.getAddressBlockAt(1), purpleOrangeMap.getAddressBlockAt(1), "PA 1024");
+        MemoryLink m4 = new MemoryLink(purpleOrangeMap.getAddressBlockAt(1), greenMemoryBlock.getAddressBlockAt(8), "VA 8");
+
+        List<MemoryElement> memoryElementList = new ArrayList<>();
+
+        memoryElementList.add(blueMemoryBlock);
+        memoryElementList.add(purpleMemoryBlock);
+        memoryElementList.add(blueOrangeMap);
+        memoryElementList.add(purpleOrangeMap);
+        memoryElementList.add(greenMemoryBlock);
+        memoryElementList.add(m1);
+        memoryElementList.add(m2);
+        memoryElementList.add(m3);
+        memoryElementList.add(m4);
+
+
+        List<Command> commandList = new ArrayList<>();
+
+        Command c1 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleOrangeMap, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, blueOrangeMap, true));
+
+        Command c1_1 = new Command(CommandType.NEXT_STORY);
+
+        Command c2 = new Command(CommandType.ELEMENT_VISIBILITY, m1, true);
+        c2.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c3 = new Command(CommandType.ELEMENT_VISIBILITY, m2, true);
+        c3.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, m3, true);
+        c4.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, m4, true);
+        c5.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c6 = new Command(CommandType.NEXT_STORY);
+
+        commandList.add(c1);
+        commandList.add(c1_1);
+        commandList.add(c2);
+        commandList.add(c3);
+        commandList.add(c4);
+        commandList.add(c5);
+        commandList.add(c6);
+
+
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
+    }
+
+    private static Chapter memoryFragmentationsolutionChapter() {
+
+        String name = "Memory Fragmentation [Solution]";
+
+        Type chapterType = Type.MEMORY_FRAGMENTATION_SOLUTION;
+
+        Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
+
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
 
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 3 2 GB");
         MemoryBlock purpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2 2 GB");
@@ -257,7 +352,7 @@ public class ChapterFactory {
         MemoryBlock blueOrangeMap = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Map 3");
         MemoryBlock purpleOrangeMap = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Map 2");
 
-        MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(12), "");
+        MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(12), "32-bit program address space (4 GB)");
 
         List<MemoryElement> memoryElementList = new ArrayList<>();
 
@@ -273,13 +368,17 @@ public class ChapterFactory {
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true));
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true));
 
-        Command c2 = new Command(CommandType.ELEMENT_VISIBILITY, blueOrangeMap, true);
-        c2.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleOrangeMap, true));
+        Command c2 = new Command(CommandType.NEXT_STORY);
+
+        Command c2_1 = new Command(CommandType.ELEMENT_VISIBILITY, blueOrangeMap, true);
+        c2_1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleOrangeMap, true));
+        c2_1.addInnerCommand(new Command(CommandType.NEXT_STORY));
 
         commandList.add(c1);
         commandList.add(c2);
+        commandList.add(c2_1);
 
-        Command c3 = new Command(CommandType.NEXT_STORY);
+        Command c3 = new Command(CommandType.EMPTY_COMMAND);
 
         for (int i = 0; i < 6; i++) {
             MemoryLink memoryLink = new MemoryLink(purpleMemoryBlock.getAddressBlockAt(i), purpleOrangeMap.getAddressBlockAt(i), "");
@@ -287,7 +386,7 @@ public class ChapterFactory {
             c3.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, memoryLink, true));
         }
 
-        Command c4 = new Command(CommandType.NEXT_STORY);
+        Command c4 = new Command(CommandType.EMPTY_COMMAND);
 
         for (int i = 0; i < 6; i++) {
             MemoryLink memoryLink = new MemoryLink(purpleOrangeMap.getAddressBlockAt(i), greenMemoryBlock.getAddressBlockAt(3 + i), "");
@@ -296,7 +395,7 @@ public class ChapterFactory {
         }
 
 
-        Command c5 = new Command(CommandType.NEXT_STORY);
+        Command c5 = new Command(CommandType.EMPTY_COMMAND);
 
         for (int i = 0; i < 6; i++) {
             MemoryLink memoryLink = new MemoryLink(blueMemoryBlock.getAddressBlockAt(i), blueOrangeMap.getAddressBlockAt(i), "");
@@ -324,16 +423,18 @@ public class ChapterFactory {
         commandList.add(c6);
 
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
     }
 
-    private static Chapter notEnoughMemorySollutionChapter() {
+    private static Chapter notEnoughMemorysolutionChapter() {
 
-        String name = "Not enough memory sollution";
+        String name = "Not Enough Memory [Solution]";
 
-        Type chapterType = Type.NOT_ENOUGH_MEMORY_SOLLUTION;
+        Type chapterType = Type.NOT_ENOUGH_MEMORY_SOLUTION;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
+
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
 
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(10), "32-bit program address space (4 GB)");
         MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "30-bit RAM address space(1 GB)");
@@ -377,36 +478,52 @@ public class ChapterFactory {
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true));
         c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, diskBlock, true));
 
-        Command c2 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(0), "Program 0");
+        Command c1_1 = new Command(CommandType.NEXT_STORY);
+        Command c1_2 = new Command(CommandType.NEXT_STORY);
+
+        Command c2 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(0), "Address 0");
         Command c3 = new Command(CommandType.ELEMENT_VISIBILITY, link1, true);
+        c3.addInnerCommand(new Command(CommandType.NEXT_STORY));
         Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, link5, true);
-        c4.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(1), "Program 0"));
+        c4.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c4.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(1), "Address 0"));
 
-        Command c5 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(1), "Program 1");
+        Command c5 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(1), "Address 1");
         Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, link2, true);
+        c6.addInnerCommand(new Command(CommandType.NEXT_STORY));
         Command c7 = new Command(CommandType.ELEMENT_VISIBILITY, link6, true);
-        c7.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(0), "Program 1"));
+        c7.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c7.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(0), "Address 1"));
 
-        Command c8 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(2), "Program 2");
+        Command c8 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(2), "Address 2");
         Command c9 = new Command(CommandType.ELEMENT_VISIBILITY, link3, true);
+        c9.addInnerCommand(new Command(CommandType.NEXT_STORY));
         Command c10 = new Command(CommandType.ELEMENT_VISIBILITY, link7, true);
-        c10.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(2), "Program 2"));
+        c10.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c10.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(2), "Address 2"));
 
 
-        Command c11 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(3), "Program 3");
+        Command c11 = new Command(CommandType.ADDRESS_BLOCK_WRITE, blueMemoryBlock.getAddressBlockAt(3), "Address 3");
         Command c12 = new Command(CommandType.ELEMENT_VISIBILITY, link4, true);
+        c12.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c12.addInnerCommand(new Command(CommandType.NEXT_STORY));
         Command c13 = new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(1), "");
-        c13.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, diskBlock.getAddressBlockAt(0), "Program 0"));
+        c13.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c13.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, diskBlock.getAddressBlockAt(0), "Address 0"));
 
         Command c14 = new Command(CommandType.ELEMENT_VISIBILITY, link8, true);
+        c14.addInnerCommand(new Command(CommandType.NEXT_STORY));
         c14.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, link5, false));
 
 
         Command c15 = new Command(CommandType.ELEMENT_VISIBILITY, link9, true);
-        c15.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(1), "Program 3"));
+        c15.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        c15.addInnerCommand(new Command(CommandType.ADDRESS_BLOCK_WRITE, greenMemoryBlock.getAddressBlockAt(1), "Address 3"));
 
 
         commandList.add(c1);
+        commandList.add(c1_1);
+        commandList.add(c1_2);
         commandList.add(c2);
         commandList.add(c3);
         commandList.add(c4);
@@ -423,21 +540,23 @@ public class ChapterFactory {
         commandList.add(c15);
 
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
 
     }
 
     private static Chapter securityChapter() {
 
-        String name = "Application Security";
+        String name = "Application Security [Problem]";
 
         Type chapterType = Type.SECURITY;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
 
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
+
         MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(12), "32-bit RAM address space(1 GB)");
-        MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Program 1 1GB");
-        MemoryBlock purpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2 2GB");
+        MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Program 1");
+        MemoryBlock purpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2");
 
 
         MemoryLink memoryLink1 = new MemoryLink(blueMemoryBlock.getAddressBlockAt(1), greenMemoryBlock.getAddressBlockAt(1), "Program Address 1024");
@@ -454,13 +573,13 @@ public class ChapterFactory {
 
         List<Command> commandList = new ArrayList<>();
 
-        Command c1 = new Command(CommandType.NEXT_STORY);
-        c1.addInnerCommand(new Command(CommandType.NEXT_STORY));
-        c1.addInnerCommand(new Command(CommandType.NEXT_STORY));
+        Command c1 = new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true);
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true));
 
-        Command c3 = new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true);
-        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
-        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true);
+        Command c2 = new Command(CommandType.NEXT_STORY);
+        Command c2_1 = new Command(CommandType.NEXT_STORY);
+        Command c2_2 =new Command(CommandType.NEXT_STORY);
 
         Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink1, true);
         c6.addInnerCommand(new Command(CommandType.NEXT_STORY));
@@ -473,27 +592,29 @@ public class ChapterFactory {
         Command c8 = new Command(CommandType.NEXT_STORY);
 
         commandList.add(c1);
-        commandList.add(c3);
-        commandList.add(c4);
-        commandList.add(c5);
+        commandList.add(c2);
+        commandList.add(c2_1);
+        commandList.add(c2_2);
         commandList.add(c6);
         commandList.add(c7);
         commandList.add(c8);
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
     }
 
     private static Chapter memoryFragmentationProblemChapter() {
-        String name = "Memory Fragmentation";
+        String name = "Memory Fragmentation [Problem]";
 
         Type chapterType = Type.MEMORY_FRAGMENTATION;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
 
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
+
         MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(12), "32-bit RAM address space(1 GB)");
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Program 1 1GB");
         MemoryBlock purpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2 2GB");
-        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Program 3 1GB");
+        MemoryBlock orangeMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 3 2GB");
 
         MemoryBlock afterBlueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "Program 1 1GB");
         MemoryBlock afterPurpleMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(6), "Program 2 2GB");
@@ -509,43 +630,50 @@ public class ChapterFactory {
 
         List<Command> commandList = new ArrayList<>();
 
-        Command c1 = new Command(CommandType.NEXT_STORY);
-        c1.addInnerCommand(new Command(CommandType.NEXT_STORY));
-        Command c3 = new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true);
-        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
-        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true);
-        Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, orangeMemoryBlock, true);
-        Command c7 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, false);
-        c7.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, afterBlueMemoryBlock, true));
-        c7.addInnerCommand(new Command(CommandType.NEXT_STORY));
-        Command c8 = new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, false);
-        c8.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, afterPurpleMemoryBlock, true));
-        Command c9 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
-        c9.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, afterBlueMemoryBlock, false));
-        c9.addInnerCommand(new Command(CommandType.NEXT_STORY));
-        Command c10 = new Command(CommandType.NEXT_STORY);
+        Command c1 = new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true);
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, true));
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, orangeMemoryBlock, true));
+
+        Command c2 = new Command(CommandType.NEXT_STORY);
+        Command c3 = new Command(CommandType.NEXT_STORY);
+
+        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, afterBlueMemoryBlock, true);
+        c4.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, false));
+        c4.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, purpleMemoryBlock, false);
+        c5.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, afterPurpleMemoryBlock, true));
+        c5.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+
+        Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
+        c6.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, afterBlueMemoryBlock, false));
+        c6.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c7 = new Command(CommandType.NEXT_STORY);
 
 
         commandList.add(c1);
+        commandList.add(c2);
         commandList.add(c3);
         commandList.add(c4);
         commandList.add(c5);
         commandList.add(c6);
         commandList.add(c7);
-        commandList.add(c8);
-        commandList.add(c9);
-        commandList.add(c10);
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType, quizzes);
     }
 
     private static Chapter notEnoughMemoryProblemChapter() {
 
-        String name = "Not enough memory chapter";
+        String name = "Not Enough Memory [Problem]";
 
         Type chapterType = Type.NOT_ENOUGH_MEMORY;
 
         Storyline storyline = new Storyline(Utils.getStoriesForChapter(chapterType));
+
+        List<ChapterQuiz> quizzes = Utils.getQuizzesForChapter(chapterType);
 
         MemoryBlock blueMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(10), "32-bit program address space (4 GB)");
         MemoryBlock greenMemoryBlock = new MemoryBlock(Utils.getRandomAddressBlocks(3), "30-bit RAM address space(1 GB)");
@@ -568,18 +696,31 @@ public class ChapterFactory {
 
         List<Command> commandList = new ArrayList<>();
 
-        Command c1 = new Command(CommandType.NEXT_STORY);
-        Command c2 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
+        Command c1 = new Command(CommandType.ELEMENT_VISIBILITY, blueMemoryBlock, true);
+        c1.addInnerCommand(new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true));
+
+        Command c2 = new Command(CommandType.NEXT_STORY);
         Command c3 = new Command(CommandType.NEXT_STORY);
-        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, greenMemoryBlock, true);
-        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink1, true);
-        Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink2, true);
-        Command c7 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink3, true);
-        Command c8 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink4, true);
+        Command c3_1 = new Command(CommandType.NEXT_STORY);
+
+        Command c4 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink1, true);
+        c4.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c5 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink2, true);
+        c5.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c6 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink3, true);
+        c6.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c7 = new Command(CommandType.ELEMENT_VISIBILITY, memoryLink4, true);
+        c7.addInnerCommand(new Command(CommandType.NEXT_STORY));
+
+        Command c8 = new Command(CommandType.NEXT_STORY);
 
         commandList.add(c1);
         commandList.add(c2);
         commandList.add(c3);
+        commandList.add(c3_1);
         commandList.add(c4);
         commandList.add(c5);
         commandList.add(c6);
@@ -587,7 +728,7 @@ public class ChapterFactory {
         commandList.add(c8);
 
 
-        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType);
+        return new Chapter(name, storyline, memoryElementList, null, commandList, chapterType,quizzes);
 
 
     }

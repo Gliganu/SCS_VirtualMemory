@@ -16,7 +16,7 @@ public class Storyline {
 
     public String getNextStory(){
 
-        if(currentIndex > storyList.size()){
+        if(currentIndex >= storyList.size()){
             return "";
         }
 

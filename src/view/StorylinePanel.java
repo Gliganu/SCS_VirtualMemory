@@ -1,6 +1,7 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 /**
  * Created by GligaBogdan on 31-Mar-16.
@@ -24,7 +25,9 @@ public class StorylinePanel extends JPanel {
         listModel = new DefaultListModel<>();
 
         storyList = new JList<>(listModel);
-
+        storyList.setCellRenderer(new StoryCellRenderer());
+        storyList.setFixedCellWidth(400);
+        storyList.setFixedCellHeight(50);
         add(storyList);
     }
 

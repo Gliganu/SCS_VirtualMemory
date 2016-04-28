@@ -1,6 +1,7 @@
 package view;
 
 import controller.Chapter;
+import controller.Utils;
 import model.Command;
 
 import javax.swing.*;
@@ -19,7 +20,11 @@ public class MainFrame extends JFrame{
     private JSplitPane   splitPane;
     private ChapterDashboard chapterDashboard;
     private TitlePanel titlePanel;
+    private QuizPanel quizPanel;
+
     private int currentCommandIndex = 0;
+
+    private JTabbedPane mainCardContainer;
 
     private Chapter chapter;
 
@@ -33,8 +38,14 @@ public class MainFrame extends JFrame{
         titlePanel = new TitlePanel("Select chapter");
         storylinePanel = new StorylinePanel(this);
         chapterDashboard = new ChapterDashboard(null);
+        mainCardContainer = new JTabbedPane();
+        quizPanel = new QuizPanel(Utils.getRandomChapterQuiz(""));
         chapterChooserPanel = new ChapterChooserPanel(this, chapterList);
-        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chapterChooserPanel, chapterDashboard);
+
+        mainCardContainer.add(chapterDashboard, "Chapter Dashboard");
+        mainCardContainer.add(quizPanel, "Chapter questions");
+
+        splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, chapterChooserPanel, mainCardContainer);
 
 
         setLayout(new BorderLayout());
@@ -107,6 +118,9 @@ public class MainFrame extends JFrame{
                 break;
             case ADDRESS_BLOCK_WRITE_LEFT:
                 command.changeAddressLeftBlockDescription();
+                break;
+            case EMPTY_COMMAND:
+                break;
         }
 
         for (Command innerCommand : command.getInnerCommands()) {
@@ -123,6 +137,11 @@ public class MainFrame extends JFrame{
         MemoryElementViewFactory.constructMemoryViewForChapter(newChapter);
         chapterDashboard.setChapter(newChapter);
         storylinePanel.clearStories();
+
+        mainCardContainer.remove(quizPanel);
+        quizPanel = new QuizPanel(chapter.getQuizzes());
+        mainCardContainer.add(quizPanel, "Chapter questions");
+
         requestFocusInWindow();
 
     }

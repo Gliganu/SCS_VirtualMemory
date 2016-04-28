@@ -102,6 +102,10 @@ public class ChapterDashboard extends JPanel {
 
         int addressBlockHeight = height / addressBlockList.size();
 
+        if (view.isWithTopDescription()){
+            g2d.drawString(memoryBlock.getDescription(), x - 40, y - addressBlockHeight);
+        }
+
         for (AddressBlock addressBlock : addressBlockList) {
 
             if (addressBlock.isHidden()) {
@@ -115,7 +119,7 @@ public class ChapterDashboard extends JPanel {
 
             if (view.isWithInsideDescription() && addressBlockList.indexOf(addressBlock) == 1 && !view.isOnePiece()) {
                 g2d.setColor(Color.black);
-                g2d.drawString(memoryBlock.getDescription(), x, y + indexOf * addressBlockHeight - addressBlockHeight / 2);
+                g2d.drawString(memoryBlock.getDescription(), x+10, y + indexOf * addressBlockHeight - addressBlockHeight / 2);
             }
 
             if (view.isWithSideDescription()) {
@@ -125,7 +129,7 @@ public class ChapterDashboard extends JPanel {
 
 
             g2d.setColor(Color.BLACK);
-            g2d.drawString(addressBlock.getInDescription(), x, y + (indexOf + 1) * addressBlockHeight - addressBlockHeight / 2);
+            g2d.drawString(addressBlock.getInDescription(), x+10, y + (indexOf + 1) * addressBlockHeight - addressBlockHeight / 2);
 
 
             if (!view.isOnePiece()) {

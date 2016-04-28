@@ -1,6 +1,7 @@
 package view;
 
 import controller.Chapter;
+import model.Type;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,16 +17,32 @@ public class ChapterCellRenderer extends JLabel implements ListCellRenderer<Chap
         setIconTextGap(12);
     }
 
-    public Component getListCellRendererComponent(JList list, Chapter value,
+    public Component getListCellRendererComponent(JList list, Chapter chapter,
                                                   int index, boolean isSelected, boolean cellHasFocus) {
-        Chapter entry = (Chapter) value;
-        setText(entry.getName());
+
+        setText(index+". "+chapter.getName());
+        Type.TypeInformation info = chapter.getType().getInfo();
+
+        Color foregroundColor= null;
+        switch(info){
+
+            case PROBLEM:
+                foregroundColor = Color.RED;
+                break;
+            case SOLUTION:
+                foregroundColor = new Color(0,100,0);
+                break;
+            case INFO:
+                foregroundColor = Color.BLUE;
+                break;
+        }
+
         if (isSelected) {
             setBackground(HIGHLIGHT_COLOR);
             setForeground(Color.white);
         } else {
             setBackground(Color.white);
-            setForeground(Color.black);
+            setForeground(foregroundColor);
         }
         return this;
     }

@@ -34,10 +34,12 @@ public class ChapterChooserPanel extends JPanel {
 
         chapterList = new JList<>(listModel);
         chapterList.setCellRenderer(new ChapterCellRenderer());
+        chapterList.setFixedCellWidth(300);
+        chapterList.setFixedCellHeight(30);
 
         addListener();
 
-        int selectedChapter = 6;
+        int selectedChapter = 0;
         chapterList.setSelectedIndex(selectedChapter);
         parent.setSelectedChapter(chapters.get(selectedChapter));
 

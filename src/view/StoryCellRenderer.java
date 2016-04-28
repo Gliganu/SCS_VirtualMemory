@@ -3,12 +3,13 @@ package view;
 import controller.Chapter;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
  * Created by GligaBogdan on 31-Mar-16.
  */
-public class StoryCellRenderer extends JLabel implements ListCellRenderer<Chapter> {
+public class StoryCellRenderer extends JLabel implements ListCellRenderer<String> {
     private static final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
 
     public StoryCellRenderer() {
@@ -16,10 +17,11 @@ public class StoryCellRenderer extends JLabel implements ListCellRenderer<Chapte
         setIconTextGap(12);
     }
 
-    public Component getListCellRendererComponent(JList list, Chapter value,
+    @Override
+    public Component getListCellRendererComponent(JList list, String value,
                                                   int index, boolean isSelected, boolean cellHasFocus) {
-        Chapter entry = value;
-        setText(entry.getName());
+        setText(index+". "+value);
+
         if (isSelected) {
             setBackground(HIGHLIGHT_COLOR);
             setForeground(Color.white);

@@ -3,6 +3,7 @@ package controller;
 import model.*;
 import view.ChapterDashboard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,13 +23,16 @@ public class Chapter {
 
     private ChapterDashboard dashboard;
 
-    public Chapter(String name, Storyline storyline, List<MemoryElement> memoryElementList, List<Question> questionList, List<Command> commandList, Type type) {
+    private List<ChapterQuiz> quizzes;
+
+    public Chapter(String name, Storyline storyline, List<MemoryElement> memoryElementList, List<Question> questionList, List<Command> commandList, Type type, List<ChapterQuiz> quizzes) {
         this.name = name;
         this.storyline = storyline;
         this.memoryElementList = memoryElementList;
         this.questionList = questionList;
         this.commandList = commandList;
         this.type = type;
+        this.quizzes = quizzes;
     }
 
     public String getName() {
@@ -98,5 +102,13 @@ public class Chapter {
                 ", commandList=" + commandList +
                 ", dashboard=" + dashboard +
                 '}';
+    }
+
+    public List<ChapterQuiz> getQuizzes() {
+        return quizzes;
+    }
+
+    public void setQuizzes(List<ChapterQuiz> quizzes) {
+        this.quizzes = quizzes;
     }
 }
